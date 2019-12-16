@@ -2,7 +2,15 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+app.locals.pretty = true;
+app.set('view engine', 'pug');
+app.set('views','./views'); // folder name is 'views', directory position is './views'
+
 app.use(express.static('public')); // docs를 찾을때 public에서 찾음
+
+app.get('/template', function(req,res){
+    res.render('temp', {variableMan:'Var', Time:Date(), _title:'Pug Page'}); // file name is 'temp'
+})
 
 app.get('/', function(req,res){
     res.send('Hello home');
@@ -18,8 +26,8 @@ app.get('/dynamic', function(req,res){
     for(var i=0; i < 5; i++){
         lis = lis + '<li>start</li>';
         book = book + '<li>bookman</li>';
-        i = i+i;
     }
+
     var output = `
     <!DOCTYPE html>
     <html>
