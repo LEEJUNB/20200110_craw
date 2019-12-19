@@ -28,32 +28,28 @@ app.post('/topic', function(req,res){
 
 // 사용자가 url을 통해 들어올 수 있도록 get도 만들자.
 // 글 목록이 화면에 표시된다.
-app.get('/topic', function(req,res){
+app.get(['/topic', '/topic/:id'], function(req,res){
     fs.readdir('data', function(err,files){ // files인자 안에는 data라는 디렉터리안에 포함된 파일들이 배열로 담김
         if(err){
             console.log(err);
             res.status(500).send('Internal Server Error');
         }
-        res.render('view', {topics:files}); // view is filename, topics(변수)를 통해 files인자(파일들을 배열화시킨 것)를 가져온다.
-    })
-});
-
-app.get('/topic/:id', function(req,res){
-    var id = req.params.id;
-    fs.readdir('data', function(err,files){
-        if(err){
-            console.log(err);
-            res.status(500).send('Internal Server Error');
+        var id = req.params.id;
+        if(id){
+            fs.readFile('data/'+id ,'utf8', function(err,data){
+                if(err){
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                }
+                res.render('view', {topics:files, title:id, description:data});
+            })
+        } else {
+            res.render('view', {topics:files, title:'Welcome', description:'Hello Man'}); // view is filename, topics(변수)를 통해 files인자(파일들을 배열화시킨 것)를 가져온다.
         }
-        fs.readFile('data/'+id ,'utf8', function(err,data){
-            if(err){
-                console.log(err);
-                res.status(500).send('Internal Server Error');
-            }
-            res.render('view', {topics:files, title:id, description:data});
-        })
     })
-})
+}); 
+
+
 
 app.listen(3000, function(){ //app객체가 가진 메소드 중 listen을 통해 특정 port를 listen하도록 만든다.
     console.log('Connected, 3000 port!');
