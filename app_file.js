@@ -38,6 +38,23 @@ app.get('/topic', function(req,res){
     })
 });
 
+app.get('/topic/:id', function(req,res){
+    var id = req.params.id;
+    fs.readdir('data', function(err,files){
+        if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        }
+        fs.readFile('data/'+id ,'utf8', function(err,data){
+            if(err){
+                console.log(err);
+                res.status(500).send('Internal Server Error');
+            }
+            res.render('view', {topics:files, title:id, description:data});
+        })
+    })
+})
+
 app.listen(3000, function(){ //app객체가 가진 메소드 중 listen을 통해 특정 port를 listen하도록 만든다.
     console.log('Connected, 3000 port!');
 })
