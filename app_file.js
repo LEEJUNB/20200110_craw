@@ -2,6 +2,8 @@ const express_id = require('express'); // require함수가 리턴한 값(express
 const app = express_id(); // express모듈을 가져왔으면 app객체를 만든다. express_id변수에 담긴 함수를 호출, 실행하면 app변수, 객체를 리턴
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const multer = require('multer');
+
 
 app.use(bodyParser.urlencoded({extended : false}));
 app.locals.pretty = true;
@@ -13,7 +15,7 @@ app.get('/topic/new', function(req,res){
     fs.readdir('data', function(err,files){
         if(err){
             console.log(err);
-            res.status(500).send('Internal Server Error');
+            res.status(500).send('Intervar Server Error')
         }
         res.render('new', {topics:files});
     })
@@ -28,7 +30,7 @@ app.post('/topic', function(req,res){
         if(err){
             res.status(500).send('Internal Server Error'); // 500 is error number
         }
-        res.redirect('/topic' + title); // 작성한 글에 대한 페이지로 이동
+        res.send('Success!' + req.body.title);
     })
 });
 
@@ -54,6 +56,14 @@ app.get(['/topic', '/topic/:id'], function(req,res){
         }
     })
 }); 
+
+app.get('/upload', function(req,res){
+    res.render('upload');
+});
+
+app.post('/upload', function(req,res){
+    res.send('uploaded');
+})
 
 
 
