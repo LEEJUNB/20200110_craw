@@ -3,6 +3,7 @@ const app = express_id(); // express모듈을 가져왔으면 app객체를 만�
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const multer = require('multer');
+const upload = multer({dest:'uploads/'})
 
 
 app.use(bodyParser.urlencoded({extended : false}));
@@ -61,11 +62,12 @@ app.get('/upload', function(req,res){
     res.render('upload');
 });
 
-app.post('/upload', function(req,res){
-    res.send('uploaded');
-})
-
-
+// 
+// single의 인자는 해당 input타입의 name명이다.
+app.post('/upload', upload.single('userfile'), function(req,res){
+    console.log(req.file);
+    res.send('uploaded : ' + req.file.filename); // filename을 통해 전송된 파일의 이름을 알 수 있음
+});
 
 app.listen(3000, function(){ //app객체가 가진 메소드 중 listen을 통해 특정 port를 listen하도록 만든다.
     console.log('Connected, 3000 port!');
