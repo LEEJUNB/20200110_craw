@@ -28,7 +28,7 @@ app.post('/topic', function(req,res){
         if(err){
             res.status(500).send('Internal Server Error'); // 500 is error number
         }
-        res.send('Success!' + req.body.title);
+        res.redirect('/topic' + title); // 작성한 글에 대한 페이지로 이동
     })
 });
 
