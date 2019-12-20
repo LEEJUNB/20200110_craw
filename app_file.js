@@ -10,7 +10,13 @@ app.set('views', './views_file');
 app.set('view engine', 'pug');
 
 app.get('/topic/new', function(req,res){
-    res.render('new');
+    fs.readdir('data', function(err,files){
+        if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        }
+        res.render('new', {topics:files});
+    })
 });
 
 // form에 입력한 값들이 파일로 저장되도록 fs모듈을 이용하자
