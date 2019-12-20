@@ -3,8 +3,17 @@ const app = express_id(); // express모듈을 가져왔으면 app객체를 만�
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const multer = require('multer');
-const upload = multer({dest:'uploads/'})
+const _storage = multer.diskStorage({
+    destination: function(req,file,cb){ // cb는 callback으로 함수가 실행됐을 시 적당한 디렉터리, 파일이 저장될 수 있게함
+        cb(null, 'uploads/') // 파일저장경로
+    },
+    filename : function(req,file,cb){
+        cb(null, file.originalname); // 파일제목지정
+    }
+})
 
+const upload = multer({storage:_storage})
+app.use('/user', express_id.static('uploads')); // user라는 디렉터리를 통해 사용자들이 uploads폴더에서 파일을 가져가도록 만듦
 
 app.use(bodyParser.urlencoded({extended : false}));
 app.locals.pretty = true;
@@ -62,8 +71,8 @@ app.get('/upload', function(req,res){
     res.render('upload');
 });
 
-// 
 // single의 인자는 해당 input타입의 name명이다.
+// 그리고 이 인자의 단수 파일을 전달받아 req.file에 저장된다.
 app.post('/upload', upload.single('userfile'), function(req,res){
     console.log(req.file);
     res.send('uploaded : ' + req.file.filename); // filename을 통해 전송된 파일의 이름을 알 수 있음
