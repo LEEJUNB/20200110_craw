@@ -9,7 +9,3 @@ const _storage = multer.diskStorage({
         cb(null, file.originalname);
     }
 })
-
-const upload = multer({ storage : _storage})
-const fs = require('fs');
-const app = express();
