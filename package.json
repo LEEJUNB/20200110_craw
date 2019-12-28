@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec node app_file.js"
+    "start": "nodemon --exec node app_mysql.js"
   },
   "repository": {
     "type": "git",
