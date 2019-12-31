@@ -61,7 +61,19 @@ app.post('/topic', function(req,res){
 app.get(['/topic', '/topic/:id'], function(req,res){
     var sql = 'SELECT id,title FROM topic';
     conn.query(sql, function(err,topics,fields){
-        res.render('view', {topics:topics});
+        var id = req.params.id;
+        if(id) {
+            var sql = 'SELECT * FROM topic WHERE id = ?';
+            conn.query(sql, [id], function(err, topic, fields){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.render('view',{topics:topics, topic:topic[0]});
+                }
+            });
+        } else {
+            res.render('view', {topics : topics});
+        }
     });
     /*
     fs.readdir('data', function(err,files){ // files인자 안에는 data라는 디렉터리안에 포함된 파일들이 배열로 담김
