@@ -35,22 +35,14 @@ app.set('view engine', 'pug');
 
 app.get('/topic/add', function(req,res){
     var sql = 'SELECT id,title FROM topic';
-    conn.query(sql,function(err,topics,fields){
+    conn.query(sql, [title,description,author], function(err,result,fields){
         if(err){
             console.log(err);
             res.status(500).send('Internal Server Error');
+        } else {
+            res.redirect('/topic/'+result.insertId);
         }
-        res.render('add',{topics:topics});
     });
-    /*
-    fs.readdir('data', function(err,files){
-        if(err){
-            console.log(err);
-            res.status(500).send('Intervar Server Error')
-        }
-        res.render('add', {topics:files});
-    })
-    */
 });
 
 // form에 입력한 값들이 파일로 저장되도록 fs모듈을 이용하자
