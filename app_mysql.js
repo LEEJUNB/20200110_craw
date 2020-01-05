@@ -33,14 +33,20 @@ app.locals.pretty = true;
 app.set('views', './views_mysql'); // 템플릿파일을 찾을 때, views_mysql파일을 찾음
 app.set('view engine', 'pug');
 
-app.get('/topic/new', function(req,res){
+app.get('/topic/add', function(req,res){
+    var sql = 'SELECT id,title FROM topic';
+    conn.query(sql,function(err,topics,fields){
+        res.render('add',{topics:topics});
+    });
+    /*
     fs.readdir('data', function(err,files){
         if(err){
             console.log(err);
             res.status(500).send('Intervar Server Error')
         }
-        res.render('new', {topics:files});
+        res.render('add', {topics:files});
     })
+    */
 });
 
 // form에 입력한 값들이 파일로 저장되도록 fs모듈을 이용하자
