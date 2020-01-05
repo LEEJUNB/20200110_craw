@@ -7,14 +7,14 @@ html
         ul
             each topic in topics
                 li
-                    a(href='/topic/' + topic)= topic
-        article
-            if topic
-                h2= topic.title
-                = topic.description
-                div= 'by '+topic.author
-            else
-                h2 welcome
-                | this is serverside JS
-        div
-            a(href='/topic/add') add
+                    a(href='/topic/' + topic.id)= topic.title
+            article
+                form(action='/topic/add' method='post')
+                    p
+                        input(type='text' name='title' placeholder='title')
+                    p
+                        textarea(name="description" placeholder="description")
+                    p
+                        input(type="text" name='author' placeholder='author')
+                    p
+                        input(type='submit')

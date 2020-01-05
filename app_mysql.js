@@ -36,6 +36,10 @@ app.set('view engine', 'pug');
 app.get('/topic/add', function(req,res){
     var sql = 'SELECT id,title FROM topic';
     conn.query(sql,function(err,topics,fields){
+        if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        }
         res.render('add',{topics:topics});
     });
     /*
