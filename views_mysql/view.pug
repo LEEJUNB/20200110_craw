@@ -16,5 +16,10 @@ html
                 else
                     h2 Welcome
                     | This is server js.
-            div
-                a(href='/topic/add') New Write Here
+            ul
+                li
+                    a(href='/topic/add') New Write Here
+                if topic
+                    li
+                        a(href="/topic/'+topic.id+'/edit") edit
+                
