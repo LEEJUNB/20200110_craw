@@ -81,25 +81,20 @@ app.get(['/topic', '/topic/:id'], function(req,res){
 
 // edit pug
 app.get(['/topic/:id/edit'], function(req,res){
-    var sql = 'SELECT id,title FROM topic';
-    conn.query(sql,function(err, topics, fields){
-        var id = req.params.id;
-        if(id){
-            var sql = "SELECT * FROM topic WHERE id=?";
-            conn.query(sql, [id], function(err, topic, fields){
-                if(err){
-                    console.log(err);
-                    res.status(500).send('internal Server Err');
-                } else {
-                    res.render('edit', {topics:topics, topic:topic[0]});
-                }
-            });
+    var title = req.body.title;
+    var description = req.body.description;
+    var author = req.body.author;
+    var id = req.params.id;
+    var sql = 'UPDATE topic SET title=?, description=?, author=? WHERE id=?'
+    conn.query(sql, [title, description, author, id], function(err, result, fields){
+        if(err){
+            console.log(err);
+            res.status(500).send('Internal Server Err');
         } else {
-            console.log('There is no id.');
-            res.status(500).send("internal Server Err");
+            res.redirect('/topic/'+id);
         }
-    })
-})
+    });
+});
 
 app.get('/upload', function(req,res){
     res.render('upload');
