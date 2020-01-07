@@ -111,7 +111,7 @@ app.get('/topic/:id/delete', function(req,res){
                     console.log('THere is no record.');
                     res.status(500).send('internal server err');
                 } else {
-                    res.render('delete', {topics:topics, topic:topic});
+                    res.render('delete', {topics:topics, topic:topic[0]});
                 }
             }
         });

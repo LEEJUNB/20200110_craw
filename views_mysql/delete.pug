@@ -9,4 +9,8 @@ html
                 li
                     a(href='/topic/' + topic.id)= topic.title
             article
-                | Delete
+                h1= 'Delete? '+topic.title
+                form(action='/topic/'+topic.id+'/delete' method='post')
+                    p
+                        input(type='submit' value='YES')
+                    a(href='/topic/'+topic.id) NO
