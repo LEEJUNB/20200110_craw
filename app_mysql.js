@@ -118,6 +118,15 @@ app.get('/topic/:id/delete', function(req,res){
     });
 });
 
+//delete post
+app.post('/topic/:id/delete', function(req,res){
+    var id = req.params.id;
+    var sql = 'DELETE FROM topic WHERE id=?';
+    conn.query(sql, [id], function(err,result){
+        res.rediret('/topic/');
+    });
+});
+
 
 app.get('/upload', function(req,res){
     res.render('upload');
