@@ -99,8 +99,22 @@ app.get(['/topic/:id/edit'], function(req,res){
 //delete
 app.get('/topic/:id/delete', function(req,res){
     var sql = "SELECT id, title FROM topic";
+    var id = req.params.id;
     conn.query(sql, function(err, topics, fields){
-        res.render('delete', {topics:topics});
+        var sql = "SELECT * FROM topic WHERE id=?";
+        conn.query(sql, [id], function(err, topic){
+            if(err){
+                console.log(err);
+                res.status(500).send('Internal Server Err');
+            } else {
+                if(topic.length === 0){
+                    console.log('THere is no record.');
+                    res.status(500).send('internal server err');
+                } else {
+                    res.render('delete', {topics:topics, topic:topic});
+                }
+            }
+        });
     });
 });
 
