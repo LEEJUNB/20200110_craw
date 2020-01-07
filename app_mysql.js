@@ -96,6 +96,15 @@ app.get(['/topic/:id/edit'], function(req,res){
     });
 });
 
+//delete
+app.get('/topic/:id/delete', function(req,res){
+    var sql = "SELECT id, title FROM topic";
+    conn.query(sql, function(err, topics, fields){
+        res.render('delete', {topics:topics});
+    });
+});
+
+
 app.get('/upload', function(req,res){
     res.render('upload');
 });
