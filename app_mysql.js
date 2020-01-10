@@ -1,4 +1,3 @@
-///// testing
 const express_id = require('express'); // require함수가 리턴한 값(express)을 express_id라는 변수에 담았다. 이 변수로 express모듈 제어가능
 const app = express_id(); // express모듈을 가져왔으면 app객체를 만든다. express_id변수에 담긴 함수를 호출, 실행하면 app변수, 객체를 리턴
 const bodyParser = require('body-parser');
@@ -126,7 +125,6 @@ app.post('/topic/:id/delete', function(req,res){
         res.rediret('/topic/');
     });
 });
-
 
 app.get('/upload', function(req,res){
     res.render('upload');
